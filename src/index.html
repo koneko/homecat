@@ -159,5 +159,36 @@
   
     <main>
         <h1>Welcome to HomeCat</h1>
+        <p>The current time is <b><span id="time">fetching...</span></b> localy.</p>
+        <p>Today is <b><span id='day'></span></b>.</p>
     </main>
   </body>
+  <script>
+
+    var span = document.getElementById('time');
+  function time() {
+    var d = new Date();
+    var s = d.getSeconds();
+    var m = d.getMinutes();
+    var h = d.getHours();
+    
+    span.textContent = 
+      ("0" + h).substr(-2) + ":" + ("0" + m).substr(-2) + ":" + ("0" + s).substr(-2);
+  }
+  setInterval(time, 1000);
+  function getDay() {
+  var d = new Date();
+  var weekday = new Array(7);
+  weekday[0] = "Sunday";
+  weekday[1] = "Monday";
+  weekday[2] = "Tuesday";
+  weekday[3] = "Wednesday";
+  weekday[4] = "Thursday";
+  weekday[5] = "Friday";
+  weekday[6] = "Saturday";
+
+  var n = weekday[d.getDay()];
+  document.getElementById("day").innerText = n;
+}
+getDay()
+  </script>

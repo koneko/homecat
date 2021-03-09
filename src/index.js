@@ -13,6 +13,7 @@ const createWindow = () => {
     height: 800,
     title: 'Homecat',
     icon: path.join(__dirname, 'favicon.ico')
+    // icon: "https://hub.koneko.link/cdn/icons/black.png"
   });
 
   // and load the index.html of the app.
