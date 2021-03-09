@@ -11,6 +11,8 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 1000,
     height: 800,
+    title: 'Homecat',
+    icon: path.join(__dirname, 'favicon.ico')
   });
 
   // and load the index.html of the app.
