@@ -160,5 +160,24 @@
   
     <main>
         <h1>Settings</h1>
+        <div>
+          <h3>Music Settings</h3>
+          <div>
+            <h4>Path</h4>
+            <p>In here you can set a path to your music to be auto detected. In the folder please only have .mp3 files to make sure that the program doesnt bug out.</p>
+            <input placeholder="Path to music..." id="pathinput">
+            <button onclick="setPath(document.getElementById('pathinput'))">Set path</button><br>
+            <p>Don't know how to get path for music? Click <a href="#">here</a>.</p><br>
+            <p>Current path: <b><span id='currentpath'>nothing</span></b></p>
+          </div>
+
+          <div>
+
+          </div>
+        </div>
     </main>
+    <script src="settings.js"></script>
+    <script>
+      getPathB()
+    </script>
   </body>

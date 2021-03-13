@@ -32,6 +32,14 @@
     padding: 1rem;
     text-align: center;
   }
+
+  .items {
+    display:flex;
+    align-items: center;
+    width: 100%;
+    /* height: 100%; */
+    /* border: 5px red solid; */
+  }
   
   .navbar {
     position: fixed;
@@ -88,12 +96,12 @@
   
   .fa-primary {
     /* color: #ff7eee; */
-    color: rgb(83, 206, 247);
+    color: orange;
   }
   
   .fa-secondary {
     /* color: #df49a6; */
-    color: rgb(23, 159, 204);
+    color: rgb(228, 149, 2);
   }
   
   .fa-primary,
@@ -220,16 +228,30 @@
   }
 
   .mainItem {
-    border-radius: 25px;
-    border-color:rgb(83, 206, 247);
+    border-radius: 20px;
+    background-color: white;
+    border: 2px rgb(90, 13, 231) solid;
+    width: 150px;
+    /* color: rgb(245, 191, 91); */
+    text-align: center;
+    margin: 0;
+    left: 50%;
+    right: 50%;
+    align-self: center;
+    /* height: 100px; */
+    /* font-size: 20px; */
+    margin-left: 10px;
+    cursor: pointer;
   }
   .mainItem:hover {
-    border-color:rgb(23, 159, 204);
+    border-color:rgb(79, 11, 204);
+    background-color: rgb(79, 11, 204);
+    color: rgb(226, 226, 226);
   }
 
-  .loader {
-    border: 16px solid #f3f3f3; /* Light grey */
-    border-top: 16px solid #3498db; /* Blue */
+  /* .loader {
+    border: 16px solid #f3f3f3; 
+    border-top: 16px solid #3498db; 
     border-radius: 50%;
     width: 120px;
     height: 120px;
@@ -239,4 +261,4 @@
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-  }
+  } */

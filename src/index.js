@@ -1,7 +1,9 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
-
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
+const express = require('express');
+const expressApp = express()
+const port = 4269;
+const fs = require('fs').promises;
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
   app.quit();
 }
@@ -15,21 +17,14 @@ const createWindow = () => {
     icon: path.join(__dirname, 'favicon.ico')
     // icon: "https://hub.koneko.link/cdn/icons/black.png"
   });
-
-  // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
-
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
 };
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+console.log(__dirname)
+const getMusic = async (path) => {
+  return await fs.readdir(path)
+}
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
+app.on('ready', createWindow);
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
@@ -37,14 +32,23 @@ app.on('window-all-closed', () => {
 });
 
 app.on('activate', () => {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
+expressApp.get('/api', (req,res) => {
+  res.send({
+    paths: ["/api/getPath"]
+  })
+})
+
+expressApp.get('/api/getMusic', async (req,res) => {
+  // let path = stringify(req.params.path)
+  res.send(await getMusic(req.query.path))
+  // console.log(getMusic(req.query.path))
+})
+
+expressApp.listen(port, () => console.log('backend api listening on localhost:4269/api'))
 
 module.exports = app;

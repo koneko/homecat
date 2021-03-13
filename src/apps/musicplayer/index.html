@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homecat | MusicPlayer</title>
+</head>
+<style>
+    button {
+        margin-left: 5px;
+    }
+    li {
+        cursor: pointer;
+        /* margin: 7px 7px 7px 7px; */
+        margin-top: 5px;
+        font-size: 20px;
+    }
+</style>
+<body>
+    <a href="#" onclick="history.back()">Back</a>
+    <p>You can change what folder to fetch songs from <a href="../../settings.html">here</a></p>
+</body>
+</html>
+<script>
+    class AudioManager {
+        constructor() {
+            //create controls div
+            let div1 = document.createElement('div');
+            div1.setAttribute('id', 'controls')
+            document.body.appendChild(div1)
+            //create audio player
+            let audio = document.createElement('audio');
+            audio.setAttribute('id', 'audio')
+            div1.appendChild(audio)
+            //create loaded song
+            let loaded = document.createElement('p');
+            loaded.setAttribute('id', 'loadedSong')
+            div1.appendChild(loaded)
+            //create play btn
+            let playBtn = document.createElement('button')
+            playBtn.innerText = 'Play'
+            playBtn.setAttribute('onclick', 'audio.play()')
+            div1.appendChild(playBtn)
+            //create pause btn
+            let stopBtn = document.createElement('button')
+            stopBtn.setAttribute('onclick', 'audio.pause()')
+            stopBtn.setAttribute('id', 'stopBtn')
+            stopBtn.innerText = 'Pause'
+            div1.appendChild(stopBtn)
+            //create container for song list
+            let div = document.createElement('div');
+            div.setAttribute('id', 'mainList')
+            document.body.appendChild(div)
+            //create song list
+            let ul = document.createElement('ul')
+            ul.setAttribute('id', 'songList')
+            div.appendChild(ul)
+        }
+        load(name) {
+            let path = localStorage.getItem('path')
+            document.getElementById('audio').src = `${path}${name}`
+        }
+        play() {
+            document.getElementById('audio').play()
+        }
+        pause() {
+            document.getElementById('audio').pause()
+        }
+        populate() {
+        let path = localStorage.getItem('path')
+            fetch(`http://localhost:4269/api/getMusic?path=${path}`)
+                .then(response => response.json())
+                .then(res => {
+                    const list = document.getElementById('songList')
+                    for(let i = 0; i <res.length; i++) {
+                        const item = document.createElement('li')
+                        item.appendChild(document.createTextNode(res[i]))
+                        list.appendChild(item)
+                    }
+                });
+        }
+    }
+const audio = new AudioManager()
+
+songList.onclick = (e) => {
+    const clickedItem = e.target
+    audio.load(clickedItem.innerText)
+    document.getElementById('loadedSong').innerText = `Current song: ${clickedItem.innerText}`
+
+}
+
+audio.populate()
+</script>
