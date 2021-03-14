@@ -29,9 +29,17 @@
             let div1 = document.createElement('div');
             div1.setAttribute('id', 'controls')
             document.body.appendChild(div1)
+            //create progress bar
+            let progress = document.createElement('progress')
+            progress.id = 'progress'
+            progress.setAttribute('value', '0')
+            progress.setAttribute('max', '100')
+            progress.style.width = "200px"
+            div1.appendChild(progress)
             //create audio player
             let audio = document.createElement('audio');
             audio.setAttribute('id', 'audio')
+            audio.setAttribute('ontimeupdate', 'audio.updateProgress()')
             div1.appendChild(audio)
             //create loaded song
             let loaded = document.createElement('p');
@@ -48,6 +56,24 @@
             stopBtn.setAttribute('id', 'stopBtn')
             stopBtn.innerText = 'Pause'
             div1.appendChild(stopBtn)
+            //create loop btn
+            let loopBtn = document.createElement('button')
+            loopBtn.setAttribute('onclick', 'audio.loop()')
+            loopBtn.setAttribute('id', 'loopBtn')
+            loopBtn.innerText = 'Loop'
+            div1.appendChild(loopBtn)
+            //br
+            let br = document.createElement('br')
+            div1.appendChild(br)
+            //volume slider
+            let slider = document.createElement('input')
+            slider.setAttribute('type', 'range')
+            slider.min = "0";
+            slider.max = "1";
+            slider.step = "0.01"
+            slider.id = 'slider'
+            slider.value = "0.5"
+            div1.appendChild(slider)
             //create container for song list
             let div = document.createElement('div');
             div.setAttribute('id', 'mainList')
@@ -80,14 +106,62 @@
                     }
                 });
         }
+        async updateProgress() {
+            let player = document.getElementById('audio');
+            let loopVar = localStorage.getItem('loopVar')
+            // console.log(loopVar)
+            if(player.currentTime > 0) {
+                const progressBar = document.getElementById('progress')
+                progressBar.value = (player.currentTime / player.duration) * 100
+            }
+            if(loopVar == 'true') {
+                // console.log('loopvar true')
+                const progressBar = document.getElementById('progress')
+                if(progressBar.value == 100) {
+                    console.log('i am called')
+                    progressBar.value = 0;
+                    audio.pause()
+                    audio.load(document.getElementById('loadedSong').textContent)
+                    document.getElementById('audio').play()
+                }
+            }
+        }
+        loop() {
+            let loopVar = localStorage.getItem('loopVar')
+            let btn = document.getElementById('loopBtn')
+            if(loopVar == 'false') {
+                localStorage.setItem('loopVar', 'true')
+                btn.textContent = 'Looping: True'
+            } else {
+                localStorage.setItem('loopVar', 'false')
+                btn.textContent = 'Looping: False'
+            }
+            
+        }
     }
 const audio = new AudioManager()
-
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 songList.onclick = (e) => {
     const clickedItem = e.target
     audio.load(clickedItem.innerText)
-    document.getElementById('loadedSong').innerText = `Current song: ${clickedItem.innerText}`
+    document.getElementById('loadedSong').innerText = `${clickedItem.innerText}`
+}
 
+slider.oninput = (e) => {
+    const volume = e.target.value
+    document.getElementById('audio').volume = volume
+}
+
+if(!localStorage.getItem('loopVar')) {
+    localStorage.setItem('loopVar', 'false')
+}
+
+if(localStorage.getItem('loopVar') == 'true') {
+    document.getElementById('loopBtn').textContent = 'Looping: True'
+} else {
+    document.getElementById('loopBtn').textContent = 'Looping: False'
 }
 
 audio.populate()

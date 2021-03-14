@@ -3,7 +3,9 @@ the simple *all in one* app for (almost) any usage
 ---
 ## Features
 >
-> Stil working on it...
+> Music Player(not the best)
+>
+> More to be added
 >
 ---
 ### What is homecat
