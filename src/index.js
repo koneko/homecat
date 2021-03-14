@@ -14,8 +14,8 @@ const createWindow = () => {
     width: 1000,
     height: 800,
     title: 'Homecat',
-    icon: path.join(__dirname, 'favicon.ico')
-    // icon: "https://hub.koneko.link/cdn/icons/black.png"
+    icon: path.join(__dirname, 'favicon.ico'),
+    autoHideMenuBar: true
   });
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 };
