@@ -23,12 +23,22 @@
 </body>
 </html>
 <script>
+    const socket = new WebSocket('ws://localhost:8080')
     class AudioManager {
         constructor() {
             //create controls div
             let div1 = document.createElement('div');
             div1.setAttribute('id', 'controls')
             document.body.appendChild(div1)
+            // create folder chooser
+            let dirs = document.createElement('input');
+            dirs.type = 'file'
+            dirs.id = 'dirs'
+            div1.appendChild(dirs)
+            //br
+            div1.appendChild(document.createElement('br'))
+            //br
+            div1.appendChild(document.createElement('br'))
             //create progress bar
             let progress = document.createElement('progress')
             progress.id = 'progress'
@@ -140,9 +150,6 @@
         }
     }
 const audio = new AudioManager()
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
 songList.onclick = (e) => {
     const clickedItem = e.target
     audio.load(clickedItem.innerText)
@@ -153,6 +160,23 @@ slider.oninput = (e) => {
     const volume = e.target.value
     document.getElementById('audio').volume = volume
 }
+socket.onmessage = (msg) => {
+    // console.log('i have recieved a message from ws')
+    // console.log(msg)
+    if(msg.data.includes('socketdirectorypathisrighthereafiagsfhaofjgnagoa')) {
+        location.reload()
+    }
+}
+
+document.getElementById('dirs').addEventListener('click', (e) => {
+    e.preventDefault()
+    window.postMessage({
+        type: 'select-dirs'
+    })
+    location.reload()
+})
+
+
 
 if(!localStorage.getItem('loopVar')) {
     localStorage.setItem('loopVar', 'false')
@@ -163,6 +187,7 @@ if(localStorage.getItem('loopVar') == 'true') {
 } else {
     document.getElementById('loopBtn').textContent = 'Looping: False'
 }
+
 
 audio.populate()
 </script>
