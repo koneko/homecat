@@ -116,7 +116,7 @@ wsserver.on('connection', socket => {
 
 function sendthingsocket(thingy) {
   console.log('i got called')
-  givesock.send('socketdirectorypathisrighthereafiagsfhaofjgnagoa' + thingy)
+  givesock.send('socketdirectorypathisrighthereafiagsfhaofjgnagoa' + thingy + "\\\\")
 }
 expressApp.listen(port, () => console.log('backend api listening on localhost:4269/api'))
 

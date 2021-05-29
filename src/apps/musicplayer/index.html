@@ -108,6 +108,7 @@
             fetch(`http://localhost:4269/api/getMusic?path=${path}`)
                 .then(response => response.json())
                 .then(res => {
+                    // if(path != localStorage.path)
                     const list = document.getElementById('songList')
                     for(let i = 0; i <res.length; i++) {
                         const item = document.createElement('li')
@@ -164,6 +165,7 @@ socket.onmessage = (msg) => {
     // console.log('i have recieved a message from ws')
     // console.log(msg)
     if(msg.data.includes('socketdirectorypathisrighthereafiagsfhaofjgnagoa')) {
+        localStorage.path = msg.data.replace('socketdirectorypathisrighthereafiagsfhaofjgnagoa', '')
         location.reload()
     }
 }
